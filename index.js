@@ -48,14 +48,34 @@ app.get('/persons/:id',(req,res)=>{
     res.status(404);
     res.send({message: `Person with id ${searchId} not found!`});
 })
-app.put('/persons',(req,res)=>{
+app.put('/persons/:id',(req,res)=>{
+    const seeId =req.params.id;
+    let dataToUpdate= req.body;
 
+    for(let person of listOfPersons){
+        if(person.id ==seeId ){
+        person.name=dataToUpdate.name;
+        person.phone=dataToUpdate.phone
+        return;
+        }
+    }
+    res.status(404);
+    res.send({message: `Person with id ${seeId} not found!`});
+})
+app.delete('/persons/:id',(req,res)=>{
+    let searchId =req.params.id;
+    let I = '';
+    for(let pos in listOfPersons){
+        if(listOfPersons[pos].id ==searchId ){
+            I=pos; 
+        }
+    }
+    listOfPersons.splice(I,1)
+    res.send({message: `Person with id ${searchId} is delet!`})
 })
 
 app.get('/persons', (req, res) => {
     const searchName = req.query.name;
-
-    
     if(searchName!=undefined) {
         let result = [];
 
