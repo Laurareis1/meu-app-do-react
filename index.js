@@ -41,10 +41,12 @@ app.get('/persons/:id',(req,res)=>{
     for(let person of listOfPersons){
         if(person.id ==searchId ){
            resultado=person
-           break;
+           res.send(resultado)
+           return;
         }
     }
-    res.send(resultado)
+    res.status(404);
+    res.send({message: `Person with id ${searchId} not found!`});
 })
 app.put('/persons',(req,res)=>{
 
@@ -60,6 +62,7 @@ app.get('/persons', (req, res) => {
         for(let person of listOfPersons) {
             if (person.name == searchName) {
                 result.push(person);
+                
             }
         }
 
